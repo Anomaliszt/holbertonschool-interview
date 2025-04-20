@@ -66,7 +66,7 @@ heap_t *sift_up(heap_t *node)
 heap_t *heap_insert(heap_t **root, int value)
 {
     heap_t *new_node, *parent;
-    size_t size, index;
+    size_t size;
 
     if (root == NULL)
         return (NULL);
