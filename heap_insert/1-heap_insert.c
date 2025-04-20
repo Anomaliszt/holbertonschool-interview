@@ -23,11 +23,15 @@ size_t binary_tree_size(const binary_tree_t *tree)
 heap_t *find_parent(heap_t *root, size_t index, size_t insert_idx)
 {
     heap_t *left, *right;
+    size_t parent_idx;
 
-    if (index == ((insert_idx - 1) >> 1))
+    /* Calculate parent index for insert_idx */
+    parent_idx = (insert_idx - 1) / 2;
+
+    if (index == parent_idx)
         return (root);
 
-    if ((insert_idx - 1) >> 1 > index)
+    if (parent_idx > index)
     {
         left = find_parent(root->left, (index * 2) + 1, insert_idx);
         right = find_parent(root->right, (index * 2) + 2, insert_idx);
@@ -45,13 +49,13 @@ heap_t *find_parent(heap_t *root, size_t index, size_t insert_idx)
  */
 heap_t *sift_up(heap_t *node)
 {
-    int temp;
+    int temp_value;
 
     while (node->parent && node->n > node->parent->n)
     {
-        temp = node->n;
+        temp_value = node->n;
         node->n = node->parent->n;
-        node->parent->n = temp;
+        node->parent->n = temp_value;
         node = node->parent;
     }
     return (node);
