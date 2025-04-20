@@ -24,10 +24,10 @@ heap_t *find_parent(heap_t *root, size_t index, size_t insert_idx)
 {
     heap_t *left, *right;
 
-    if (index == (insert_idx >> 1))
+    if (index == ((insert_idx - 1) >> 1))
         return (root);
 
-    if ((insert_idx >> 1) > index)
+    if ((insert_idx - 1) >> 1 > index)
     {
         left = find_parent(root->left, (index * 2) + 1, insert_idx);
         right = find_parent(root->right, (index * 2) + 2, insert_idx);
