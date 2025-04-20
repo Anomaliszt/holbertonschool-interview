@@ -8,9 +8,9 @@
  */
 size_t binary_tree_size(const binary_tree_t *tree)
 {
-    if (tree == NULL)
-        return (0);
-    return (1 + binary_tree_size(tree->left) + binary_tree_size(tree->right));
+	if (tree == NULL)
+		return (0);
+	return (1 + binary_tree_size(tree->left) + binary_tree_size(tree->right));
 }
 
 /**
@@ -22,24 +22,24 @@ size_t binary_tree_size(const binary_tree_t *tree)
  */
 heap_t *find_parent(heap_t *root, size_t index, size_t insert_idx)
 {
-    heap_t *left, *right;
-    size_t parent_idx;
+	heap_t *left, *right;
+	size_t parent_idx;
 
-    /* Calculate parent index for insert_idx */
-    parent_idx = (insert_idx - 1) / 2;
+	/* Calculate parent index for insert_idx */
+	parent_idx = (insert_idx - 1) / 2;
 
-    if (index == parent_idx)
-        return (root);
+	if (index == parent_idx)
+		return (root);
 
-    if (parent_idx > index)
-    {
-        left = find_parent(root->left, (index * 2) + 1, insert_idx);
-        right = find_parent(root->right, (index * 2) + 2, insert_idx);
-        if (left)
-            return (left);
-        return (right);
-    }
-    return (NULL);
+	if (parent_idx > index)
+	{
+		left = find_parent(root->left, (index * 2) + 1, insert_idx);
+		right = find_parent(root->right, (index * 2) + 2, insert_idx);
+		if (left)
+			return (left);
+		return (right);
+	}
+	return (NULL);
 }
 
 /**
@@ -49,16 +49,16 @@ heap_t *find_parent(heap_t *root, size_t index, size_t insert_idx)
  */
 heap_t *sift_up(heap_t *node)
 {
-    int temp_value;
+	int temp_value;
 
-    while (node->parent && node->n > node->parent->n)
-    {
-        temp_value = node->n;
-        node->n = node->parent->n;
-        node->parent->n = temp_value;
-        node = node->parent;
-    }
-    return (node);
+	while (node->parent && node->n > node->parent->n)
+	{
+		temp_value = node->n;
+		node->n = node->parent->n;
+		node->parent->n = temp_value;
+		node = node->parent;
+	}
+	return (node);
 }
 
 /**
@@ -69,29 +69,29 @@ heap_t *sift_up(heap_t *node)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-    heap_t *new_node, *parent;
-    size_t size;
+	heap_t *new_node, *parent;
+	size_t size;
 
-    if (root == NULL)
-        return (NULL);
+	if (root == NULL)
+		return (NULL);
 
-    if (*root == NULL)
-    {
-        *root = binary_tree_node(NULL, value);
-        return (*root);
-    }
+	if (*root == NULL)
+	{
+		*root = binary_tree_node(NULL, value);
+		return (*root);
+	}
 
-    size = binary_tree_size(*root);
-    parent = find_parent(*root, 0, size);
+	size = binary_tree_size(*root);
+	parent = find_parent(*root, 0, size);
 
-    new_node = binary_tree_node(parent, value);
-    if (new_node == NULL)
-        return (NULL);
+	new_node = binary_tree_node(parent, value);
+	if (new_node == NULL)
+		return (NULL);
 
-    if (parent->left == NULL)
-        parent->left = new_node;
-    else
-        parent->right = new_node;
+	if (parent->left == NULL)
+		parent->left = new_node;
+	else
+		parent->right = new_node;
 
-    return (sift_up(new_node));
+	return (sift_up(new_node));
 }
