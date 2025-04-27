@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+Module to calculate the minimum number of operations needed to achieve a target number of 'H' characters.
+"""
+
 
 def minOperations(n):
     """
