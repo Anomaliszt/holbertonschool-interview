@@ -1,70 +1,56 @@
 #!/usr/bin/python3
 """
-Reads stdin line by line, computes and prints metrics.
-Input format: <IP Address> - [<date>] "GET /260 HTTP/1.1" <status code> <file size>
-Metrics are printed after every 10 lines and/or upon a keyboard interruption (CTRL + C).
+Log parsing script that reads from standard input and prints the total file size
 """
-import sys
-import signal
-import re
 
-total_file_size = 0
-status_code_counts = {}
-line_count_since_last_print = 0
-
-POSSIBLE_STATUS_CODES = {200, 301, 400, 401, 403, 404, 405, 500}
-
-
-LOG_PATTERN = re.compile(
-	r'^\S+\s+-\s+\[.*?\]\s+"GET /260 HTTP/1\.1"\s+(\d{3})\s+(\d+)$'
-)
-
-def print_statistics():
-	"""Prints the accumulated statistics in the required format."""
-	print(f"File size: {total_file_size}")
-	for code in sorted(status_code_counts.keys()):
-		print(f"{code}: {status_code_counts[code]}")
-	sys.stdout.flush()
-
-def signal_handler(sig, frame):
-	"""
-	Handles CTRL+C (SIGINT) interruption.
-	Prints statistics and then allows the script to terminate.
-	"""
-	print_statistics()
-
-signal.signal(signal.SIGINT, signal_handler)
+from sys import stdin
 
 if __name__ == "__main__":
-	try:
-		for line in sys.stdin:
-			line = line.strip()
-			match = LOG_PATTERN.match(line)
+    total_size = 0
+    status_codes = {}
+    list_status_codes = ["200",
+                         "301",
+                         "400",
+                         "401",
+                         "403",
+                         "404",
+                         "405",
+                         "500"]
 
-			if match:
-				status_code_str = match.group(1)
-				file_size_str = match.group(2)
+    for status in list_status_codes:
+        status_codes[status] = 0
 
-				try:
-					status_code = int(status_code_str)
-					file_size = int(file_size_str)
+    count = 0
+    try:
+        for line in stdin:
+            args = line.split(" ")
+            if len(args) < 2:
+                continue
 
-					total_file_size += file_size
+            try:
+                if args[-2] in list_status_codes:
+                    status_codes[args[-2]] += 1
 
-					if status_code in POSSIBLE_STATUS_CODES:
-						status_code_counts[status_code] = \
-							status_code_counts.get(status_code, 0) + 1
-					
-					line_count_since_last_print += 1
+                if args[-1][-1] == '\n':
+                    args[-1] = args[-1][:-1]
 
-					if line_count_since_last_print >= 10:
-						print_statistics()
-						line_count_since_last_print = 0
+                total_size += int(args[-1])
+            except (IndexError, ValueError):
+                continue
+            count += 1
+            if count % 10 == 0:
+                print(f"File size: {total_size}")
+                for status in sorted(status_codes.keys()):
+                    if status_codes[status] != 0:
+                        print(f"{status}: {status_codes[status]}")
+        print(f"File size: {total_size}")
+        for status in sorted(status_codes.keys()):
+            if status_codes[status] != 0:
+                print(f"{status}: {status_codes[status]}")
 
-				except ValueError:
-					pass
-
-	except KeyboardInterrupt:
-		raise
-	except Exception:
-		raise
+    except KeyboardInterrupt as e:
+        print(f"File size: {total_size}")
+        for status in sorted(status_codes.keys()):
+            if status_codes[status] != 0:
+                print(f"{status}: {status_codes[status]}")
+        raise e
