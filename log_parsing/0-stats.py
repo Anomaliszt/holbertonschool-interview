@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Log parsing script that reads from standard input and prints the total file size
+Log parsing script that reads from standard input
+and prints the total file size
 """
 
 from sys import stdin
