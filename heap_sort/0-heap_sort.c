@@ -9,15 +9,15 @@
  */
 void swap(int *array, size_t a, size_t b, size_t size)
 {
-    int temp;
+	int temp;
 
-    if (a != b)
-    {
-        temp = array[a];
-        array[a] = array[b];
-        array[b] = temp;
-        print_array(array, size);
-    }
+	if (a != b)
+	{
+		temp = array[a];
+		array[a] = array[b];
+		array[b] = temp;
+		print_array(array, size);
+	}
 }
 
 /**
@@ -29,28 +29,28 @@ void swap(int *array, size_t a, size_t b, size_t size)
  */
 void sift_down(int *array, size_t start, size_t end, size_t size)
 {
-    size_t root = start;
-    size_t child, swap_idx;
+	size_t root = start;
+	size_t child, swap_idx;
 
-    while (2 * root + 1 <= end)
-    {
-        child = 2 * root + 1;
-        swap_idx = root;
+	while (2 * root + 1 <= end)
+	{
+		child = 2 * root + 1;
+		swap_idx = root;
 
-        if (array[swap_idx] < array[child])
-            swap_idx = child;
+		if (array[swap_idx] < array[child])
+			swap_idx = child;
 
-        if (child + 1 <= end && array[swap_idx] < array[child + 1])
-            swap_idx = child + 1;
+		if (child + 1 <= end && array[swap_idx] < array[child + 1])
+			swap_idx = child + 1;
 
-        if (swap_idx == root)
-            return;
-        else
-        {
-            swap(array, root, swap_idx, size);
-            root = swap_idx;
-        }
-    }
+		if (swap_idx == root)
+			return;
+		else
+		{
+			swap(array, root, swap_idx, size);
+			root = swap_idx;
+		}
+	}
 }
 
 /**
@@ -60,15 +60,15 @@ void sift_down(int *array, size_t start, size_t end, size_t size)
  */
 void heapify(int *array, size_t size)
 {
-    int start;
+	int start;
 
-    start = (size - 2) / 2;
+	start = (size - 2) / 2;
 
-    while (start >= 0)
-    {
-        sift_down(array, start, size - 1, size);
-        start--;
-    }
+	while (start >= 0)
+	{
+		sift_down(array, start, size - 1, size);
+		start--;
+	}
 }
 
 /**
@@ -81,19 +81,19 @@ void heapify(int *array, size_t size)
  */
 void heap_sort(int *array, size_t size)
 {
-    size_t end;
+	size_t end;
 
-    if (!array || size < 2)
-        return;
+	if (!array || size < 2)
+		return;
 
-    heapify(array, size);
+	heapify(array, size);
 
-    end = size - 1;
-    while (end > 0)
-    {
-        swap(array, 0, end, size);
-        
-        end--;
-        sift_down(array, 0, end, size);
-    }
+	end = size - 1;
+	while (end > 0)
+	{
+		swap(array, 0, end, size);
+
+		end--;
+		sift_down(array, 0, end, size);
+	}
 }
