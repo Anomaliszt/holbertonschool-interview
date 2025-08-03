@@ -45,11 +45,9 @@ void sift_down(int *array, size_t start, size_t end, size_t size)
 
 		if (swap_idx == root)
 			return;
-		else
-		{
-			swap(array, root, swap_idx, size);
-			root = swap_idx;
-		}
+
+		swap(array, root, swap_idx, size);
+		root = swap_idx;
 	}
 }
 
