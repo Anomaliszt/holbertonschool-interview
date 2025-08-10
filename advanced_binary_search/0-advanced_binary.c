@@ -28,17 +28,18 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 
 	mid = left + (right - left) / 2;
 
+	if (left == right)
+	{
+		if (array[left] == value)
+			return (left);
+		else
+			return (-1);
+	}
+
 	if (value <= array[mid])
 	{
-		if (mid == left || array[mid - 1] != value)
-		{
-			if (array[mid] == value)
-				return (mid);
-			else if (mid == 0)
-				return (-1);
-			else
-				return (advanced_binary_recursive(array, left, mid - 1, value));
-		}
+		if (array[mid] == value && (mid == left || array[mid - 1] != value))
+			return (mid);
 		return (advanced_binary_recursive(array, left, mid, value));
 	}
 	else
