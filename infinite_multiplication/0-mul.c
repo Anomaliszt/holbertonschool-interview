@@ -106,7 +106,7 @@ void multiply(char *num1, char *num2)
 		{
 			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			
+
 			sum = n1 * n2 + result[i + j + 1];
 			result[i + j + 1] = sum % 10;
 			result[i + j] += sum / 10;
@@ -127,7 +127,7 @@ void multiply(char *num1, char *num2)
 
 	for (; i < len1 + len2; i++)
 		_putchar(result[i] + '0');
-	
+
 	_putchar('\n');
 	free(result);
 }
