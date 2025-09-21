@@ -3,26 +3,53 @@
 #include <stdio.h>
 
 /**
- * merge - Merges two subarrays
+ * print_merge_info - Prints merging information
+ * @array: The original array
+ * @left: Left index
+ * @mid: Middle index
+ * @right: Right index
+ */
+void print_merge_info(int *array, size_t left, size_t mid, size_t right)
+{
+	printf("Merging...\n");
+	printf("[left]: ");
+	print_array(array + left, mid - left + 1);
+	printf("[right]: ");
+	print_array(array + mid + 1, right - mid);
+}
+
+/**
+ * copy_remaining - Copies remaining elements from one subarray
+ * @array: Source array
+ * @temp: Destination array
+ * @start: Starting index
+ * @end: Ending index
+ * @k: Current position in temp array
+ *
+ * Return: Updated position in temp array
+ */
+size_t copy_remaining(int *array, int *temp, size_t start, size_t end, size_t k)
+{
+	while (start <= end)
+	{
+		temp[k] = array[start];
+		start++;
+		k++;
+	}
+	return (k);
+}
+
+/**
+ * merge_arrays - Merges two sorted subarrays
  * @array: The original array
  * @temp: Temporary array for merging
  * @left: Left index
  * @mid: Middle index
  * @right: Right index
  */
-void merge(int *array, int *temp, size_t left, size_t mid, size_t right)
+void merge_arrays(int *array, int *temp, size_t left, size_t mid, size_t right)
 {
-	size_t i, j, k;
-
-	printf("Merging...\n");
-	printf("[left]: ");
-	print_array(array + left, mid - left + 1);
-	printf("[right]: ");
-	print_array(array + mid + 1, right - mid);
-
-	i = left;
-	j = mid + 1;
-	k = left;
+	size_t i = left, j = mid + 1, k = left;
 
 	while (i <= mid && j <= right)
 	{
@@ -39,19 +66,24 @@ void merge(int *array, int *temp, size_t left, size_t mid, size_t right)
 		k++;
 	}
 
-	while (i <= mid)
-	{
-		temp[k] = array[i];
-		i++;
-		k++;
-	}
+	k = copy_remaining(array, temp, i, mid, k);
+	copy_remaining(array, temp, j, right, k);
+}
 
-	while (j <= right)
-	{
-		temp[k] = array[j];
-		j++;
-		k++;
-	}
+/**
+ * merge - Merges two subarrays
+ * @array: The original array
+ * @temp: Temporary array for merging
+ * @left: Left index
+ * @mid: Middle index
+ * @right: Right index
+ */
+void merge(int *array, int *temp, size_t left, size_t mid, size_t right)
+{
+	size_t i;
+
+	print_merge_info(array, left, mid, right);
+	merge_arrays(array, temp, left, mid, right);
 
 	for (i = left; i <= right; i++)
 		array[i] = temp[i];
