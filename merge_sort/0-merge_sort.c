@@ -19,58 +19,6 @@ void print_merge_info(int *array, size_t left, size_t mid, size_t right)
 }
 
 /**
- * copy_remaining - Copies remaining elements from one subarray
- * @array: Source array
- * @temp: Destination array
- * @start: Starting index
- * @end: Ending index
- * @k: Current position in temp array
- *
- * Return: Updated position in temp array
- */
-size_t copy_remaining(int *array, int *temp, size_t start, size_t end, size_t k)
-{
-	while (start <= end)
-	{
-		temp[k] = array[start];
-		start++;
-		k++;
-	}
-	return (k);
-}
-
-/**
- * merge_arrays - Merges two sorted subarrays
- * @array: The original array
- * @temp: Temporary array for merging
- * @left: Left index
- * @mid: Middle index
- * @right: Right index
- */
-void merge_arrays(int *array, int *temp, size_t left, size_t mid, size_t right)
-{
-	size_t i = left, j = mid + 1, k = left;
-
-	while (i <= mid && j <= right)
-	{
-		if (array[i] <= array[j])
-		{
-			temp[k] = array[i];
-			i++;
-		}
-		else
-		{
-			temp[k] = array[j];
-			j++;
-		}
-		k++;
-	}
-
-	k = copy_remaining(array, temp, i, mid, k);
-	copy_remaining(array, temp, j, right, k);
-}
-
-/**
  * merge - Merges two subarrays
  * @array: The original array
  * @temp: Temporary array for merging
@@ -80,14 +28,23 @@ void merge_arrays(int *array, int *temp, size_t left, size_t mid, size_t right)
  */
 void merge(int *array, int *temp, size_t left, size_t mid, size_t right)
 {
-	size_t i;
+	size_t i = left, j = mid + 1, k = left;
 
 	print_merge_info(array, left, mid, right);
-	merge_arrays(array, temp, left, mid, right);
 
+	while (i <= mid && j <= right)
+	{
+		if (array[i] <= array[j])
+			temp[k++] = array[i++];
+		else
+			temp[k++] = array[j++];
+	}
+	while (i <= mid)
+		temp[k++] = array[i++];
+	while (j <= right)
+		temp[k++] = array[j++];
 	for (i = left; i <= right; i++)
 		array[i] = temp[i];
-
 	printf("[Done]: ");
 	print_array(array + left, right - left + 1);
 }
