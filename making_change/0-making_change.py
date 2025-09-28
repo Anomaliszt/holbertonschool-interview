@@ -9,11 +9,11 @@ of coins needed to meet a given amount total.
 def makeChange(coins, total):
     """
     Determine the fewest number of coins needed to meet a given amount total.
-    
+
     Args:
         coins (list): List of coin values (integers > 0)
         total (int): Target amount
-        
+
     Returns:
         int: Fewest number of coins needed to meet total
              0 if total is 0 or less
