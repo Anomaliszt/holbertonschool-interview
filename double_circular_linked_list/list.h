@@ -1,8 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#define _GNU_SOURCE
 #include <stdlib.h>
-#include <string.h>
 
 /**
  * struct List - doubly linked list

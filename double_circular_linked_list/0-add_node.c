@@ -1,4 +1,6 @@
+#define _POSIX_C_SOURCE 200809L
 #include "list.h"
+#include <string.h>
 
 /**
  * add_node_end - Add a new node to the end of a double circular linked list
@@ -18,13 +20,12 @@ List *add_node_end(List **list, char *str)
 	if (!new_node)
 		return (NULL);
 
-	new_node->str = malloc(strlen(str) + 1);
+	new_node->str = strdup(str);
 	if (!new_node->str)
 	{
 		free(new_node);
 		return (NULL);
 	}
-	strcpy(new_node->str, str);
 
 	if (*list == NULL)
 	{
@@ -63,13 +64,12 @@ List *add_node_begin(List **list, char *str)
 	if (!new_node)
 		return (NULL);
 
-	new_node->str = malloc(strlen(str) + 1);
+	new_node->str = strdup(str);
 	if (!new_node->str)
 	{
 		free(new_node);
 		return (NULL);
 	}
-	strcpy(new_node->str, str);
 
 	if (*list == NULL)
 	{
