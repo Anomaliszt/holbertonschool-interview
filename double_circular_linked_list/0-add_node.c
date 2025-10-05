@@ -1,11 +1,4 @@
-#def/**
- * add_node_begin - Add a new node to the beginning of a double circular
- * linked list
- * @list: Double pointer to the head of the list
- * @str: String to copy into the new node
- *
- * Return: Address of the new node, or NULL on failure
- */SIX_C_SOURCE 200809L
+#define _POSIX_C_SOURCE 200809L
 #include "list.h"
 #include <string.h>
 
