@@ -1,4 +1,11 @@
-#define _POSIX_C_SOURCE 200809L
+#def/**
+ * add_node_begin - Add a new node to the beginning of a double circular
+ * linked list
+ * @list: Double pointer to the head of the list
+ * @str: String to copy into the new node
+ *
+ * Return: Address of the new node, or NULL on failure
+ */SIX_C_SOURCE 200809L
 #include "list.h"
 #include <string.h>
 
@@ -36,7 +43,7 @@ List *add_node_end(List **list, char *str)
 	else
 	{
 		last = (*list)->prev;
-		
+
 		new_node->next = *list;
 		new_node->prev = last;
 		last->next = new_node;
@@ -47,7 +54,8 @@ List *add_node_end(List **list, char *str)
 }
 
 /**
- * add_node_begin - Add a new node to the beginning of a double circular linked list
+ * add_node_begin - Add a new node to the beginning of a double circular
+ * linked list
  * @list: Double pointer to the head of the list
  * @str: String to copy into the new node
  *
@@ -80,7 +88,7 @@ List *add_node_begin(List **list, char *str)
 	else
 	{
 		last = (*list)->prev;
-		
+
 		new_node->next = *list;
 		new_node->prev = last;
 		last->next = new_node;
